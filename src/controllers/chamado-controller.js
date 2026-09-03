@@ -10,7 +10,11 @@ export function createChamadoController(tickets) {
      * @throws {Error} Falhas são capturadas e encaminhadas a next.
      */
     async list(req, res, next) {
-      try { res.json(await tickets.list(req.user, req.validated)); } catch (error) { next(error); }
+      try {
+        res.json(await tickets.list(req.user, req.validated));
+      } catch (error) {
+        next(error);
+      }
     },
     /**
      * Retorna indicadores respeitando o alcance do perfil.
@@ -22,7 +26,11 @@ export function createChamadoController(tickets) {
      * @throws {Error} Falhas são capturadas e encaminhadas a next.
      */
     async summary(req, res, next) {
-      try { res.json({ data: await tickets.summary(req.user) }); } catch (error) { next(error); }
+      try {
+        res.json({ data: await tickets.summary(req.user) });
+      } catch (error) {
+        next(error);
+      }
     },
     /**
      * Exibe um chamado, impedindo acesso ao chamado de outro cliente.
@@ -34,7 +42,11 @@ export function createChamadoController(tickets) {
      * @throws {Error} Não encontrado e falhas internas são encaminhados a next.
      */
     async get(req, res, next) {
-      try { res.json({ data: await tickets.get(req.user, req.validated.id) }); } catch (error) { next(error); }
+      try {
+        res.json({ data: await tickets.get(req.user, req.validated.id) });
+      } catch (error) {
+        next(error);
+      }
     },
     /**
      * Abre um chamado associado exclusivamente ao cliente autenticado.
@@ -49,7 +61,9 @@ export function createChamadoController(tickets) {
       try {
         const ticket = await tickets.create(req.user, req.validated);
         res.location(`/api/v1/chamados/${ticket.id}`).status(201).json({ data: ticket });
-      } catch (error) { next(error); }
+      } catch (error) {
+        next(error);
+      }
     },
     /**
      * Edita campos permitidos de um chamado aberto, validando a versão.
@@ -61,7 +75,11 @@ export function createChamadoController(tickets) {
      * @throws {Error} Conflitos, proibições e falhas são encaminhados a next.
      */
     async edit(req, res, next) {
-      try { res.json({ data: await tickets.edit(req.user, req.validated.id, req.validated) }); } catch (error) { next(error); }
+      try {
+        res.json({ data: await tickets.edit(req.user, req.validated.id, req.validated) });
+      } catch (error) {
+        next(error);
+      }
     },
     /**
      * Assume ou conclui atendimento com autorização e transação no banco.
@@ -73,7 +91,11 @@ export function createChamadoController(tickets) {
      * @throws {Error} Conflitos e proibições são capturados e encaminhados a next.
      */
     async transition(req, res, next) {
-      try { res.json({ data: await tickets.transition(req.user, req.validated.id, req.validated) }); } catch (error) { next(error); }
+      try {
+        res.json({ data: await tickets.transition(req.user, req.validated.id, req.validated) });
+      } catch (error) {
+        next(error);
+      }
     },
   };
 }

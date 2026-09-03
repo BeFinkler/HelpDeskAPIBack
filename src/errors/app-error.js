@@ -10,6 +10,8 @@ export class AppError extends Error {
 }
 
 export const notFound = () => new AppError(404, 'NOT_FOUND', 'Chamado não encontrado.');
-export const forbidden = () => new AppError(403, 'FORBIDDEN', 'Você não tem permissão para esta ação.');
-export const conflict = (message = 'O chamado foi atualizado. Recarregue os dados e tente novamente.') =>
-  new AppError(409, 'CONFLICT', message);
+export const forbidden = () =>
+  new AppError(403, 'FORBIDDEN', 'Você não tem permissão para esta ação.');
+export const conflict = (
+  message = 'O chamado foi atualizado. Recarregue os dados e tente novamente.',
+) => new AppError(409, 'CONFLICT', message);

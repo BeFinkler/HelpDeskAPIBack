@@ -10,8 +10,11 @@ export function createAuthController(auth) {
      * @throws {Error} Falhas de persistência são capturadas e encaminhadas a next.
      */
     async register(req, res, next) {
-      try { res.status(201).json({ data: await auth.register(req.validated) }); }
-      catch (error) { next(error); }
+      try {
+        res.status(201).json({ data: await auth.register(req.validated) });
+      } catch (error) {
+        next(error);
+      }
     },
     /**
      * Autentica as credenciais e emite um JWT de validade limitada.
@@ -23,8 +26,11 @@ export function createAuthController(auth) {
      * @throws {Error} Credenciais inválidas e falhas internas são encaminhadas a next.
      */
     async login(req, res, next) {
-      try { res.json({ data: await auth.login(req.validated) }); }
-      catch (error) { next(error); }
+      try {
+        res.json({ data: await auth.login(req.validated) });
+      } catch (error) {
+        next(error);
+      }
     },
     /**
      * Retorna o usuário carregado pela autenticação Bearer.
@@ -34,6 +40,8 @@ export function createAuthController(auth) {
      * @returns {Promise<void>} Dados públicos do usuário atual.
      * @throws {Error} A autenticação rejeita previamente usuários inválidos.
      */
-    async me(req, res) { res.json({ data: req.user }); },
+    async me(req, res) {
+      res.json({ data: req.user });
+    },
   };
 }

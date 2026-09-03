@@ -10,7 +10,11 @@ export function createComentarioController(tickets) {
      * @throws {Error} Chamado não encontrado e falhas são encaminhados a next.
      */
     async list(req, res, next) {
-      try { res.json(await tickets.listComments(req.user, req.validated.id, req.validated)); } catch (error) { next(error); }
+      try {
+        res.json(await tickets.listComments(req.user, req.validated.id, req.validated));
+      } catch (error) {
+        next(error);
+      }
     },
     /**
      * Publica texto simples usando o autor autenticado, em chamado não concluído.
@@ -22,7 +26,13 @@ export function createComentarioController(tickets) {
      * @throws {Error} Conflitos, proibições e falhas são encaminhados a next.
      */
     async create(req, res, next) {
-      try { res.status(201).json({ data: await tickets.comment(req.user, req.validated.id, req.validated.mensagem) }); } catch (error) { next(error); }
+      try {
+        res.status(201).json({
+          data: await tickets.comment(req.user, req.validated.id, req.validated.mensagem),
+        });
+      } catch (error) {
+        next(error);
+      }
     },
   };
 }

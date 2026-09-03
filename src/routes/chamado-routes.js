@@ -1,5 +1,13 @@
 import { Router } from 'express';
-import { idValidation, listValidation, createTicketValidation, editTicketValidation, transitionValidation, commentValidation, paginationValidation } from '../validators/index.js';
+import {
+  idValidation,
+  listValidation,
+  createTicketValidation,
+  editTicketValidation,
+  transitionValidation,
+  commentValidation,
+  paginationValidation,
+} from '../validators/index.js';
 
 export function chamadoRoutes(controller, comments, authenticate) {
   const router = Router();

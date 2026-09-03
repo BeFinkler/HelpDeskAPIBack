@@ -1,10 +1,15 @@
 import { forbidden } from '../errors/app-error.js';
-import { ensureVisible, ensureEditable, ensureTransition, ensureCanComment } from './permissions.js';
+import {
+  ensureVisible,
+  ensureEditable,
+  ensureTransition,
+  ensureCanComment,
+} from './permissions.js';
 
 export function createChamadoService(tickets, comments) {
   return {
     list: (user, query) => tickets.list(user, query),
-    summary: user => tickets.summary(user),
+    summary: (user) => tickets.summary(user),
     async get(user, id) {
       const ticket = await tickets.findById(id);
       ensureVisible(user, ticket);
@@ -15,14 +20,14 @@ export function createChamadoService(tickets, comments) {
       return tickets.create(user.id, input);
     },
     async edit(user, id, input) {
-      return tickets.transaction(async connection => {
+      return tickets.transaction(async (connection) => {
         const ticket = await tickets.lock(id, connection);
         ensureEditable(user, ticket, input.versao);
         return tickets.edit(id, { ...ticket, ...input }, connection);
       });
     },
     async transition(user, id, input) {
-      return tickets.transaction(async connection => {
+      return tickets.transaction(async (connection) => {
         const ticket = await tickets.lock(id, connection);
         ensureTransition(user, ticket, input);
         return input.status === 'EM_ATENDIMENTO'
@@ -35,7 +40,7 @@ export function createChamadoService(tickets, comments) {
       return comments.list(id, query);
     },
     async comment(user, id, message) {
-      return tickets.transaction(async connection => {
+      return tickets.transaction(async (connection) => {
         const ticket = await tickets.lock(id, connection);
         ensureCanComment(user, ticket);
         return comments.create(id, user.id, message, connection);

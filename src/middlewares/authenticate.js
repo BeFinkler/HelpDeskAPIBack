@@ -9,9 +9,17 @@ export function authenticate(users, config) {
       let payload;
       try {
         payload = jwt.verify(match[1], config.jwt.secret, {
-          algorithms: ['HS256'], issuer: config.jwt.issuer, audience: config.jwt.audience,
+          algorithms: ['HS256'],
+          issuer: config.jwt.issuer,
+          audience: config.jwt.audience,
         });
-      } catch { throw new AppError(401, 'UNAUTHORIZED', 'Sua sessão expirou ou é inválida. Entre novamente.'); }
+      } catch {
+        throw new AppError(
+          401,
+          'UNAUTHORIZED',
+          'Sua sessão expirou ou é inválida. Entre novamente.',
+        );
+      }
       if (!/^\d+$/.test(payload.sub) || !Number.isSafeInteger(Number(payload.sub))) {
         throw new AppError(401, 'UNAUTHORIZED', 'Sessão inválida.');
       }
@@ -19,6 +27,8 @@ export function authenticate(users, config) {
       if (!user) throw new AppError(401, 'UNAUTHORIZED', 'Sessão inválida.');
       req.user = user;
       next();
-    } catch (error) { next(error); }
+    } catch (error) {
+      next(error);
+    }
   };
 }
