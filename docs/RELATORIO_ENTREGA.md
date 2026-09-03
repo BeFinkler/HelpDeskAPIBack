@@ -1,7 +1,7 @@
 # Relatório de entrega — Recuperação Trimestral
 
-Nome do Estudante: `[preencher]`  
-Turma: `[preencher]`
+Nome do Estudante: Bernardo Pedroso Finkler
+Turma: 63-1
 
 ## 2. Aplicação 2: HelpDesk — Arquitetura REST
 
@@ -12,5 +12,3 @@ Turma: `[preencher]`
 - Link do Repositório GitHub (Frontend): https://github.com/BeFinkler/HelpDeskAPIFront
 
 As URLs foram homologadas em 03/09/2026. O teste público confirmou health e readiness HTTP 200, Swagger HTTP 200, front-end HTTP 200, preflight CORS HTTP 204, autenticação JWT, abertura, atribuição, comentário e conclusão de chamado.
-
-Copie esta seção para o relatório que já contém a Aplicação 1 (EventHub) e preencha apenas nome e turma.
