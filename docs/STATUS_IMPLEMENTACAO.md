@@ -1,10 +1,10 @@
-# Homologação local — HelpDesk
+# Homologação local e de produção — HelpDesk
 
 Data: 03/09/2026.
 
 ## Resultado
 
-API e front-end implementados e verificados localmente, com MySQL 8.0.46 real. A aplicação utiliza bancos separados para desenvolvimento e testes, sem alterar o banco do EventHub.
+API e front-end implementados e verificados localmente, com MySQL 8.0.46 real. A versão pública foi homologada com MySQL 8.4 na Aiven, API no Render e front-end na Vercel. A aplicação utiliza bancos separados e não altera o banco do EventHub.
 
 ## Verificações executadas
 
@@ -20,6 +20,11 @@ API e front-end implementados e verificados localmente, com MySQL 8.0.46 real. A
 | Playwright no build de produção                  | 2 cenários aprovados.                                         |
 | Capturas desktop e celular                       | Conferidas; menu móvel fechado fica oculto e não recebe foco. |
 | Auditoria na instalação npm                      | Nenhuma vulnerabilidade reportada nos dois projetos.          |
+| Health e readiness em produção                   | HTTP 200; conexão do Render com a Aiven confirmada.            |
+| Swagger UI em produção                           | HTTP 200 em `/api-docs`.                                      |
+| CORS em produção                                 | Preflight HTTP 204 para a origem exata da Vercel.             |
+| Fluxo público completo                           | Cadastro 201; chamado assumido, comentado e concluído.        |
+| Navegador no front-end público                   | Login, listagem e selo `Concluído` verificados.               |
 
 São **27 testes/cenários automatizados aprovados** entre os dois repositórios.
 
@@ -29,6 +34,10 @@ O teste de navegador usa duas sessões distintas e dados reais: cliente cadastra
 
 ## Como acessar
 
+- Front-end público: `https://helpdesk-befinkler.vercel.app`.
+- API pública: `https://helpdesk-api-befinkler.onrender.com`.
+- Swagger público: `https://helpdesk-api-befinkler.onrender.com/api-docs`.
+- Credenciais de demonstração: arquivo privado `.local/ACESSO_PRODUCAO.txt` no back-end.
 - Front-end: `http://localhost:5173`.
 - API: `http://localhost:3000`.
 - Swagger: `http://localhost:3000/api-docs`.
@@ -40,9 +49,9 @@ Após reiniciar a máquina, execute `npm run db:local` e `npm run dev` no back-e
 
 ## Git e publicação
 
-O histórico usa `feature/implementacao-api` e `feature/implementacao-web`, com commits em português e integração em `develop` nos respectivos repositórios. Os commits são locais; a publicação no GitHub e a integração em main fazem parte da preparação do deploy.
+O histórico usa `feature/implementacao-api` e `feature/implementacao-web`, com commits em português, integração em `develop` e promoção para `main` nos respectivos repositórios. As três branches foram publicadas no GitHub; Render e Vercel acompanham `main`.
 
-Os serviços em nuvem ainda não foram criados ou homologados nesta entrega local. A configuração real de TLS com a Aiven, os domínios públicos, o CORS entre os serviços e a disponibilidade do Render devem ser conferidos durante a publicação. A validação local não representa certificação de ausência de qualquer defeito nem prova de disponibilidade em nuvem.
+O banco Aiven usa TLS com CA verificada e o Render aceita CORS somente do domínio estável da Vercel. O plano gratuito do Render pode suspender a instância por inatividade e atrasar a primeira requisição; após a inicialização, o fluxo funciona normalmente.
 
 ## Guias
 
