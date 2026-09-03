@@ -2,7 +2,16 @@
 
 API REST de abertura e atendimento de chamados, com JavaScript, Node.js, Express e MySQL. O cliente Web está no repositório independente [HelpDeskAPIFront](https://github.com/BeFinkler/HelpDeskAPIFront).
 
-Implementação validada localmente com MySQL real, testes de integração e fluxo completo no navegador. Consulte [as evidências e os limites da homologação](docs/STATUS_IMPLEMENTACAO.md).
+Implementação validada localmente e homologada em produção com MySQL real, testes de integração e fluxo completo no navegador. Consulte [as evidências da homologação](docs/STATUS_IMPLEMENTACAO.md).
+
+## Produção
+
+- API: [https://helpdesk-api-befinkler.onrender.com](https://helpdesk-api-befinkler.onrender.com)
+- Swagger UI: [https://helpdesk-api-befinkler.onrender.com/api-docs](https://helpdesk-api-befinkler.onrender.com/api-docs)
+- Front-end: [https://helpdesk-befinkler.vercel.app](https://helpdesk-befinkler.vercel.app)
+- Banco: MySQL 8.4 gerenciado pela Aiven, conectado com TLS e CA verificada.
+
+O serviço usa o plano gratuito do Render e pode levar alguns segundos para responder ao primeiro acesso após um período sem uso.
 
 ## Funcionalidades
 
@@ -134,6 +143,7 @@ Para o fluxo no navegador, execute `npm run setup:e2e` aqui. Depois, no front-en
 - [Plano de implementação](docs/PLANO_IMPLEMENTACAO.md).
 - [Fluxo Git planejado](docs/FLUXO_GIT.md).
 - [Estado e verificações executadas](docs/STATUS_IMPLEMENTACAO.md).
+- [Relatório de entrega com as URLs homologadas](docs/RELATORIO_ENTREGA.md).
 - No front-end: `docs/HOSPEDAGEM_VERCEL.md`, com a sequência integrada Aiven → Render → Vercel.
 
-Preencha as URLs de produção no relatório somente após verificá-las em janela anônima. O EventHub permanece como aplicação independente já realizada.
+O EventHub permanece como aplicação independente já realizada.
