@@ -1,0 +1,54 @@
+name: Verificar API
+on:
+  push:
+    branches: [main, develop, 'feature/**']
+  pull_request:
+    branches: [main, develop]
+permissions:
+  contents: read
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+          MYSQL_DATABASE: helpdesk_test
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Instalar dependências
+        run: npm ci
+      - name: Preparar credenciais efêmeras de teste
+        run: |
+          echo "JWT_SECRET=$(openssl rand -hex 48)" >> "$GITHUB_ENV"
+          TEST_PASSWORD=$(openssl rand -hex 24)
+          echo "::add-mask::$TEST_PASSWORD"
+          echo "DB_PASSWORD=$TEST_PASSWORD" >> "$GITHUB_ENV"
+          docker exec "${{ job.services.mysql.id }}" mysql -u root -e "CREATE USER 'helpdesk_ci'@'%' IDENTIFIED BY '$TEST_PASSWORD'; GRANT ALL PRIVILEGES ON helpdesk_test.* TO 'helpdesk_ci'@'%';"
+      - name: Verificar código e regras
+        run: npm run lint && npm test
+      - name: Testar integração com MySQL
+        run: npm run test:integration
+        env:
+          NODE_ENV: test
+          FRONTEND_URL: http://localhost:5173
+          API_PUBLIC_URL: http://localhost:3000
+          DB_HOST: 127.0.0.1
+          DB_PORT: '3306'
+          DB_NAME: helpdesk
+          TEST_DB_NAME: helpdesk_test
+          DB_USER: helpdesk_ci
+          DB_SSL: 'false'
+          JWT_ISSUER: helpdesk-api
+          JWT_AUDIENCE: helpdesk-web
